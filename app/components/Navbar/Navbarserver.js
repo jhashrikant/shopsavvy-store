@@ -1,13 +1,13 @@
 
 async function fetchNavItems() {
     try {
-        const res = await fetch(`http://localhost:3001/api/getNavItems`, {
+        const res = await fetch(`${process.env.APP_BASE_URL}/api/getNavItems`, {
             cache: 'no-store'
         });
 
         return res.json();
     } catch (error) {
-        console.error('Error fetching NavItems')
+        console.error(error,'Error fetching NavItems'+error)
     }
 }
 
