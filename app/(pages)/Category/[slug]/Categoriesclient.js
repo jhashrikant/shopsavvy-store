@@ -14,7 +14,7 @@ const Categoriesclient = ({ Products }) => {
                             <Link href={`../singleProduct/${product.slug}`}>
                                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                     <Image height={500} width={500} src={product?.images?.[0]} alt="Front of men&#039;s Basic Tee in black." className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
-                                    {/* <img src={product.product_image} alt="Front of men&#039;s Basic Tee in black." className="h-full w-full object-cover object-center lg:h-full lg:w-full" /> */}
+                                    
                                 </div>
                                 <div className="mt-4 flex justify-between">
                                     <div>

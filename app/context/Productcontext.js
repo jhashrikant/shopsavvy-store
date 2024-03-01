@@ -35,31 +35,6 @@ export default function Productprovider({ children }) {
         })
     }, [state?.cart])
 
-    // useEffect(() => {
-    //     const fetchProducts = async () => {
-    //         try {
-    //             const res = await fetch(`http://localhost:3000/api/getProducts`, {
-    //                 cache: 'no-store'
-    //             });
-
-    //             if (!res.ok) {
-    //                 throw new Error(`Failed to fetch products. Status: ${res.status}`);
-    //             }
-    //             const response = await res.json();
-    //             const products = response?.products;
-
-    //             dispatch({
-    //                 type: 'ADD_ALL_PRODUCTS',
-    //                 payload: products
-    //             });
-    //         } catch (error) {
-    //             console.error('Error fetching products:', error);
-    //             // Handle error (e.g., show a message to the user)
-    //         }
-    //     }
-    //     fetchProducts();
-    // }, []);
-
     return (
         <Productcontext.Provider value={{ state, dispatch }}>
             {children}

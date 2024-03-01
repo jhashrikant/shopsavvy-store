@@ -1,15 +1,19 @@
 'use client'
 import Authreducer from "@/app/Reducers/AuthReducer"
 import Link from "next/link"
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation'
 import { useAuthContext } from "@/app/context/Authcontext";
 
 const Login = () => {
 
+	const [Loading, setLoading] = useState(false)
+
+	const apiUrl = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT : 'http://localhost:3000';
+
 	const { authState, authDispatch } = useAuthContext()
-	const { isAuthenticated ,user} = authState
+	const { isAuthenticated, user } = authState
 
 	const router = useRouter();
 
@@ -32,10 +36,11 @@ const Login = () => {
 
 
 	const handleformSubmit = async (event) => {
+		setLoading(true)
 		event.preventDefault();
 		console.log('line 22', formData)
 		try {
-			const response = await fetch(`${process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT}/api/Login`, {
+			const response = await fetch(`${apiUrl}/api/Login`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -48,26 +53,24 @@ const Login = () => {
 			}
 			const data = await response.json();
 			console.log(data)
-			console.log(data.authToken)
 			if (!data.response) {
 				toast.error(data.message)
 				return;
 			} else {
-				console.log('line asasa',data.user)
-				console.log('userid',data.userid)
+				console.log('line asasa', data.user)
+				console.log('userid', data.userid)
+				setLoading(false)
 				router.push('/')
-				
-				alert(`welcome ${data.user}`)
 				toast.success('Logged In successfully');
 				authDispatch({
 					type: 'LOGIN_SUCCESS'
 				})
 				authDispatch({
-					type:'USER',
+					type: 'USER',
 					payload: data?.user
 				})
-				localStorage.setItem('email',data?.email)
-				localStorage.setItem('user',data?.user)
+				localStorage.setItem('email', data?.email)
+				localStorage.setItem('user', data?.user)
 				console.log(isAuthenticated)
 				localStorage.setItem('authToken', data?.authToken)
 			}
@@ -76,8 +79,9 @@ const Login = () => {
 				payload: intitialstate
 			})
 		} catch (error) {
-			console.error('some error occured',error);
+			console.error('some error occured', error);
 			toast.error(error)
+			setLoading(false)
 		}
 	}
 
@@ -110,7 +114,7 @@ const Login = () => {
 					</div>
 
 					<div>
-						<button type="submit" className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ">Login</button>
+						<button disabled={Loading} type="submit" className={`flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${Loading ? 'opacity-50 cursor-not-allowed' : ''}`}>{Loading ? 'Logging In' : 'Login'}</button>
 					</div>
 				</form>
 

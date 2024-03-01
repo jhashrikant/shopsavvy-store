@@ -64,7 +64,6 @@ const MainNav = ({ navItems }) => {
         localStorage.removeItem('user')
         toast.success("Logged out")
         router.push('/Login');
-        // console.log(isAuthenticated);
     }
 
     console.log(isAuthenticated);

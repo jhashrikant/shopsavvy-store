@@ -6,10 +6,6 @@ import NavbarCart from './NavbarCart';
 
 const Navbar = async () => {
 
-    // const { authState, authDispatch } = useAuthContext()
-
-    // const { isAuthenticated } = authState
-
     const response = await fetchNavItems();
     console.log('res',response)
     // console.log('line10', navItems)

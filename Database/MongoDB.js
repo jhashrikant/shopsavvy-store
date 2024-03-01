@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-// import mongoose from 'mongoose';
 
 async function connectToMongoDB() {
+    if (!process.env.MONGO_URL) {
+        throw new Error("Mongodb Url must be defined to connect to Database")
+    }
     try {
         console.log('trying to connect to DB', 'line6');
         await mongoose.connect(process.env.MONGO_URL, {
@@ -11,26 +13,8 @@ async function connectToMongoDB() {
         console.log('connected to mongoDB');
 
     } catch (error) {
-        console.log('catch block ran line15')
         console.log('line11 error', error)
+        process.exit(1)
     }
 }
-
-
-// function connectToMongoDB() {
-//     mongoose.connect('mongodb+srv://shrikantjha:Shri%402611@cluster0.tcae4gn.mongodb.net/Shopsavvy', {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//     })
-//     .then(()=>{
-//         console.log('connected to MongoDb',res)
-//     })
-//     .catch((error)=>{
-//         console.error(error)
-//     })
-
-// }
-
-
-
 export default connectToMongoDB;

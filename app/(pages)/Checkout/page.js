@@ -11,6 +11,8 @@ import Image from "next/image";
 
 const Checkout = () => {
 
+	const apiUrl = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT : 'http://localhost:3000';
+
 	const router = useRouter()
 
 	const { authState } = useAuthContext()
@@ -26,27 +28,13 @@ const Checkout = () => {
 	})
 
 
-
-
-
 	console.log(productsOrdered)
 	console.log(cart)
 
-	const [isLoading, setIsLoading] = useState(false);
-
-	// Function to generate order ID
-	const generateOrderId = () => {
-		const timestamp = Date.now();
-		const uniqueIdentifier = Math.floor(Math.random() * 10000); // Example unique identifier
-		return `ORD-${timestamp}-${uniqueIdentifier}`;
-	};
-
-	// Example usage:
-	const orderId = generateOrderId();
+	const [isLoading, setIsLoading] = useState(false);;
 
 
 	const [formdata, setformdata] = useState({
-		orderId: orderId,
 		name: '',
 		email: '',
 		phone: '',
@@ -63,7 +51,6 @@ const Checkout = () => {
 
 	const resetForm = () => {
 		setformdata({
-			orderId: generateOrderId(),
 			name: '',
 			email: '',
 			phone: '',
@@ -91,9 +78,10 @@ const Checkout = () => {
 			return;
 		}
 		console.log(formdata)
+
 		//create a order in database
 		try {
-			const response = await fetch(`${process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT}/api/createorder`, {
+			const response = await fetch(`${apiUrl}/api/createorder`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -120,7 +108,6 @@ const Checkout = () => {
 			console.error('some error occured');
 			toast.error(error.message || "An error occurred. Please try again.")
 		}
-
 	}
 
 	const handleChange = (event) => {
@@ -134,11 +121,13 @@ const Checkout = () => {
 
 
 	const makePayment = async (orderId) => {
+		console.log('helo', orderId)
 		setIsLoading(true)
+		
 		try {
 			const key = process.env.NEXT_PUBLIC_RAZORPAY_API_KEY;
 			console.log(key);
-			const data = await fetch(`${process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT}/api/razorpay`);
+			const data = await fetch(`${apiUrl}/api/razorpay`);
 			const { order } = await data.json();
 			console.log(order.id);
 			console.log(order)
@@ -160,7 +149,7 @@ const Checkout = () => {
 						razorpay_signature: response.razorpay_signature,
 					};
 
-					const verifyResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT}/api/paymentverify`, {
+					const verifyResponse = await fetch(`${apiUrl}/api/paymentverify`, {
 						method: "POST",
 						// headers: {
 						//   // Authorization: 'YOUR_AUTH_HERE'
@@ -172,7 +161,6 @@ const Checkout = () => {
 					console.log("response verify==", verifyResult)
 
 					if (verifyResult?.message === "success") {
-						console.log("redirected.......")
 						resetForm()
 						// router.push("/paymentsuccess?paymentid=" + response.razorpay_payment_id)
 						router.push(`/paymentsuccess?paymentid=${response.razorpay_payment_id}`);
@@ -199,6 +187,7 @@ const Checkout = () => {
 			setIsLoading(false)
 			paymentObject.on("payment.failed", function (response) {
 				toast.error("Payment failed. Please try again. Contact support for help");
+				
 			});
 
 		} catch (error) {
@@ -213,7 +202,7 @@ const Checkout = () => {
 
 	const updatePaymentStatus = async (orderId) => {
 		try {
-			const response = await fetch(`${process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT}/api/updatepaymentstatus`, {
+			const response = await fetch(`${apiUrl}/api/updatepaymentstatus`, {
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
@@ -240,6 +229,7 @@ const Checkout = () => {
 			console.log("Payment status updated successfully in the database");
 		} catch (error) {
 			console.error("Error updating payment status:", error);
+			
 			toast.error(error)
 		}
 	};
@@ -344,7 +334,6 @@ const Checkout = () => {
 							<BuyProduct handleBuyNow={handleBuyNow} isLoading={isLoading} />
 						</div>
 					</div>
-
 				</div>
 			</div>
 			<Toaster />

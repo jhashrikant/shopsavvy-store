@@ -2,12 +2,7 @@ import Link from "next/link"
 import fetchNavItems from "../Navbar/Navbarserver"
 
 const Footer = async () => {
-
-    
-
-    // const {navItems} = await fetchNavItems();
     const response = await fetchNavItems();
-    // console.log('line10', navItems)
     const navItems = response?.navItems
 
     return (

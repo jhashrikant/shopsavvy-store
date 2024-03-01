@@ -96,7 +96,7 @@ const SingleProductclient = ({ Products }) => {
 
                     {Products && Products?.map((product) =>
                         <div key={product.slug} className="lg:w-4/5 mx-auto flex flex-wrap">
-                            <Image width={500} height={500} alt="ecommerce" className="lg:w-1/2 w-full lg:h-full h-full object-cover object-center rounded" src={product.images?.[0]} />
+                            <Image width={500} height={500}  className="lg:w-1/2 w-full lg:h-full h-full object-cover object-center rounded" src={product.images?.[0]} alt={product.Product_name}/>
 
                             < div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" >
                                 <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.slug.split(' ')[0] || product.Product_name}</h2>
