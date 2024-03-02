@@ -285,7 +285,7 @@ const Checkout = () => {
 
 								<label htmlFor="phone" className="mt-4 mb-2 block text-sm font-medium">Phone No</label>
 								<div className="relative">
-									<input value={formdata?.phone} onChange={handleChange} type="text" id="phone" name="phone" className="w-full rounded-md border border-gray-200 px-4 py-3  text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Your 10 digit phone number" />
+									<input value={formdata?.phone} onChange={handleChange} type="number" id="phone" name="phone" className="w-full rounded-md border border-gray-200 px-4 py-3  text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Your 10 digit phone number" />
 								</div>
 
 
@@ -297,9 +297,9 @@ const Checkout = () => {
 									</div>
 								</div>
 
-								<label htmlFor="zipCode" className="mt-4 mb-2 block text-sm font-medium">ZipCode</label>
+								<label htmlFor="zipCode" className="mt-4 mb-2 block text-sm font-medium">PinCode</label>
 								<div className="relative mt-4 mb-2">
-									<input value={formdata?.zipCode} onChange={handleChange} type="text" name="zipCode" className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-2/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="ZIP" />
+									<input value={formdata?.zipCode} onChange={handleChange} type="number" name="zipCode" className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-2/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Enter your PinCode" />
 								</div>
 
 								<label htmlFor="state" className="mt-4 mb-2 block text-sm font-medium">State</label>

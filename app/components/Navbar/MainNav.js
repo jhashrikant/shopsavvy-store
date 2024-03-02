@@ -11,7 +11,7 @@ import { CircleUserRound } from 'lucide-react';
 
 const MainNav = ({ navItems }) => {
 
-    console.log('navItems',navItems)
+    console.log('navItems', navItems)
 
     const router = useRouter()
 
@@ -21,14 +21,11 @@ const MainNav = ({ navItems }) => {
 
     const { isAuthenticated, user } = authState
     console.log(user)
-    // console.log('auth', isAuthenticated)
 
     const [isNavVisible, setIsNavVisible] = useState(false);
     const navRef = useRef()
 
     const profileDropdownref = useRef()
-
-    // console.log(profileDropdownref)
 
     function openAndCloseHamburger() {
         setIsNavVisible(prevIsNavVisible => !prevIsNavVisible);
@@ -40,10 +37,10 @@ const MainNav = ({ navItems }) => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (navRef.current && !navRef.current.contains(event?.target)) {
+            if (navRef.current && event && !navRef.current.contains(event.target)) {
                 setIsNavVisible(false);
             }
-            if (profileDropdownref.current && !profileDropdownref.current.contains(event?.target)) {
+            if (profileDropdownref.current && event && !profileDropdownref.current.contains(event.target)) {
                 // console.log(profileDropdownref.current.contains(event.target))
                 setactive(false);
             }
@@ -77,7 +74,7 @@ const MainNav = ({ navItems }) => {
                 {isNavVisible && <XCircle className={styles.closeIcon} onClick={openAndCloseHamburger} />}
                 <ul className={`${styles.navItems} ${isNavVisible ? styles.visible : ''}`}>
                     {navItems?.map((navitem, index) => (
-                        <li className='hover:cursor-pointer mx-2 py-3' key={navitem._id}>
+                        <li onClick={() => isNavVisible ? setIsNavVisible(prev => !prev) : null} className='hover:cursor-pointer mx-2 py-3' key={navitem._id}>
                             <Link key={index} href={`/Category/${navitem.labelname}`}>{navitem.labelname}</Link>
                         </li>
                     ))}

@@ -13,7 +13,7 @@ const Buy = ({ handleBuyNow, isLoading }) => {
                 className={`mt-4 mb-8 w-full rounded-md bg-indigo-500 hover:bg-indigo-600 px-6 py-3 font-medium text-white  ${isLoading ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
             >
-                {isLoading ? 'please wait...' : 'Buy Now'}
+                {isLoading ? 'Please wait...' : 'Buy Now'}
             </button>
         </div>
     );
