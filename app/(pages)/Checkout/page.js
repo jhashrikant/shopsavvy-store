@@ -21,13 +21,10 @@ const Checkout = () => {
 	const { state, dispatch } = useProductContext();
 	const { cart, totalPrice } = state
 
-	console.log(cart)
-
-
-	const productsOrdered = cart && cart?.map((item) => {
+	const productsOrdered = cart ? cart.map((item) => {
 		const { Product_name, price, product_id, quantity, size } = item;
 		return { Product_name, price, product_id, quantity, size };
-	})
+	}) : [];
 
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -114,7 +111,7 @@ const Checkout = () => {
 	const makePayment = async (orderId) => {
 		console.log('helo', orderId)
 		setIsLoading(true)
-		
+
 		try {
 			const key = process.env.NEXT_PUBLIC_RAZORPAY_API_KEY;
 			console.log(key);
@@ -178,7 +175,7 @@ const Checkout = () => {
 			setIsLoading(false)
 			paymentObject.on("payment.failed", function (response) {
 				toast.error("Payment failed. Please try again. Contact support for help");
-				
+
 			});
 
 		} catch (error) {
@@ -220,7 +217,7 @@ const Checkout = () => {
 			console.log("Payment status updated successfully in the database");
 		} catch (error) {
 			console.error("Error updating payment status:", error);
-			
+
 			toast.error(error)
 		}
 	};
