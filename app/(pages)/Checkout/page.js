@@ -21,6 +21,8 @@ const Checkout = () => {
 	const { state, dispatch } = useProductContext();
 	const { cart, totalPrice } = state
 
+	console.log(cart)
+
 
 	const productsOrdered = cart && cart?.map((item) => {
 		const { Product_name, price, product_id, quantity, size } = item;
@@ -28,12 +30,7 @@ const Checkout = () => {
 	})
 
 
-	console.log(productsOrdered)
-	console.log(cart)
-
-	const [isLoading, setIsLoading] = useState(false);;
-
-
+	const [isLoading, setIsLoading] = useState(false);
 	const [formdata, setformdata] = useState({
 		name: '',
 		email: '',
@@ -46,8 +43,6 @@ const Checkout = () => {
 		paymentStatus: false,
 		products: productsOrdered
 	})
-
-	console.log(formdata)
 
 	const resetForm = () => {
 		setformdata({
@@ -88,19 +83,15 @@ const Checkout = () => {
 				},
 				body: JSON.stringify(formdata),
 			})
-			console.log(response)
 			if (!response.ok) {
 				toast.error("some error occured , we didnt get response from server")
 				return;
 			}
 			const data = await response.json();
-			console.log(data)
 			if (!data.response) {
 				toast.error(data.message)
 				return;
 			} else {
-				console.log(data.message)
-				console.log(data.order)
 				makePayment(data?.order?.orderId)
 			}
 		}
@@ -237,7 +228,6 @@ const Checkout = () => {
 
 	useEffect(() => {
 		if (!isAuthenticated) {
-			// router.push('/Login');
 			router.push('/Login');
 		}
 	}, [isAuthenticated])

@@ -57,8 +57,6 @@ const Login = () => {
 				toast.error(data.message)
 				return;
 			} else {
-				console.log('line asasa', data.user)
-				console.log('userid', data.userid)
 				setLoading(false)
 				router.push('/')
 				toast.success('Logged In successfully');
@@ -71,7 +69,6 @@ const Login = () => {
 				})
 				localStorage.setItem('email', data?.email)
 				localStorage.setItem('user', data?.user)
-				console.log(isAuthenticated)
 				localStorage.setItem('authToken', data?.authToken)
 			}
 			dispatch({

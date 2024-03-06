@@ -11,8 +11,6 @@ import { CircleUserRound } from 'lucide-react';
 
 const MainNav = ({ navItems }) => {
 
-    console.log('navItems', navItems)
-
     const router = useRouter()
 
     const [active, setactive] = useState(false)
@@ -20,7 +18,6 @@ const MainNav = ({ navItems }) => {
     const { authState, authDispatch } = useAuthContext()
 
     const { isAuthenticated, user } = authState
-    console.log(user)
 
     const [isNavVisible, setIsNavVisible] = useState(false);
     const navRef = useRef()
@@ -63,7 +60,6 @@ const MainNav = ({ navItems }) => {
         router.push('/Login');
     }
 
-    console.log(isAuthenticated);
 
     return (
 

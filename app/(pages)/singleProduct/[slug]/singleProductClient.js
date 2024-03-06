@@ -146,7 +146,7 @@ const SingleProductclient = ({ Products }) => {
                                     <div className="flex items-center justify-center ">
                                         <span className="mr-3 font-bold text-xl">Size</span>
                                         {product?.size?.map((sizes, index) => (
-                                            <div onClick={() => handlesize(sizes.size)} key={index} className={`${sizes?.size === selectedSize ? 'bg-gray-950 text-white' : ''} text-base font-medium mx-2 hover:bg-gray-200 border shrink-0 rounded-lg w-10 h-10 md:w-10 md:h-10 lg:w-10 lg:h-10 flex justify-center items-center lg:text-xl border-gray-600 cursor-pointer`}>{sizes.size}</div>
+                                            <div onClick={() => handlesize(sizes.size)} key={index} className={`${sizes?.size === selectedSize ? 'bg-indigo-500 hover:bg-indigo-600 text-white' : ''} text-base font-medium mx-2 hover:bg-gray-200 border shrink-0 rounded-lg w-10 h-10 md:w-10 md:h-10 lg:w-10 lg:h-10 flex justify-center items-center lg:text-xl border-gray-600 cursor-pointer`}>{sizes.size}</div>
                                         ))}
 
                                     </div>

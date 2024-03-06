@@ -7,12 +7,7 @@ import NavbarCart from './NavbarCart';
 const Navbar = async () => {
 
     const response = await fetchNavItems();
-    console.log('res',response)
-    // console.log('line10', navItems)
     const navItems = response?.navItems
-    console.log('sssd',navItems)
-
-
 
     return (
         <div className=" h-16 flex flex-col md:flex-row md:justify-start justify-center items-center py-5 bg-slate-50 shadow-lg sticky top-0 z-10">
