@@ -24,9 +24,6 @@ const NavbarCart = () => {
 	}
 
 	const { state, dispatch } = useProductContext()
-
-
-
 	const { cart, totalPrice } = state;
 
 

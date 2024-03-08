@@ -62,9 +62,50 @@ const localStorage = () => {
     }
 }
 
+const IncreaseQuantity = async (product) => {
+    dispatch({
+        type: 'INCREMENT_QUANTITY',
+        payload: {
+            productid: product.product_id,
+            size: product.size
+        }
+    })
+    const updatedCart = cart?.map((item) => {
+        if (item.product_id === product.product_id && item.size === product.size) {
+            return { ...item, quantity: item.quantity + 1 }
+        } else {
+            return item
+        }
+    })
+    await localStorage.setItem('cart', JSON.stringify(updatedCart))
+    toast.success('item added in cart');
+}
+
+const decreaseQuantity = async (product) => {
+    dispatch({
+        type: 'DECREMENT_QUANTITY',
+        payload: {
+            productid: product.product_id,
+            size: product.size
+        }
+    })
+    const updatedCart = cart?.map((item) => {
+        if (item.product_id === product.product_id && item.size === product.size) {
+            return { ...item, quantity: item.quantity - 1 }
+        } else {
+            return item
+        }
+    }).filter(item => item.quantity > 0);
+
+    await localStorage.setItem('cart', JSON.stringify(updatedCart))
+    toast.success('Item removed from cart');
+}
+
 export {
     indianStates,
-    localStorage
+    localStorage,
+    IncreaseQuantity,
+    decreaseQuantity
 }
 
 

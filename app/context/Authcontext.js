@@ -17,7 +17,6 @@ export default function AuthProvider({ children }) {
 
     useEffect(() => {
         const storedAuthState = localStorage.getItem("authToken");
-        console.log(storedAuthState)
         if (storedAuthState) {
             authDispatch({
                 type: "LOAD_AUTH_STATUS",

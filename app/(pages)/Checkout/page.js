@@ -8,7 +8,7 @@ import { toast, Toaster } from "react-hot-toast";
 import Link from "next/link";
 import BuyProduct from "@/app/components/razorpay/BuyProduct";
 import Image from "next/image";
-
+import { Trash2 } from 'lucide-react';
 const Checkout = () => {
 
 	const apiUrl = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT : 'http://localhost:3000';
@@ -25,6 +25,8 @@ const Checkout = () => {
 		const { Product_name, price, product_id, quantity, size } = item;
 		return { Product_name, price, product_id, quantity, size };
 	}) : [];
+
+
 
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -223,6 +225,58 @@ const Checkout = () => {
 	};
 
 
+	const IncreaseQuantity = async (product) => {
+		dispatch({
+			type: 'INCREMENT_QUANTITY',
+			payload: {
+				productid: product.product_id,
+				size: product.size
+			}
+		})
+		const updatedCart = cart?.map((item) => {
+			if (item.product_id === product.product_id && item.size === product.size) {
+				return { ...item, quantity: item.quantity + 1 }
+			} else {
+				return item
+			}
+		})
+		await localStorage.setItem('cart', JSON.stringify(updatedCart))
+		toast.success('item added in cart');
+	}
+
+	const decreaseQuantity = async (product) => {
+		dispatch({
+			type: 'DECREMENT_QUANTITY',
+			payload: {
+				productid: product.product_id,
+				size: product.size
+			}
+		})
+		const updatedCart = cart?.map((item) => {
+			if (item.product_id === product.product_id && item.size === product.size) {
+				return { ...item, quantity: item.quantity - 1 }
+			} else {
+				return item
+			}
+		}).filter(item => item.quantity > 0);
+
+		await localStorage.setItem('cart', JSON.stringify(updatedCart))
+		toast.success('Item removed from cart');
+	}
+
+	console.log(cart)
+	const removeProductFromcart = async (product) => {
+		const updatedCart = cart?.filter(item => item !== product)
+		dispatch({
+			type: 'REMOVE_FROM_CART',
+			payload: updatedCart
+		})
+		await localStorage.setItem('cart', JSON.stringify(updatedCart))
+		toast.success('removed from cart')
+	}
+
+
+
 	useEffect(() => {
 		if (!isAuthenticated) {
 			router.push('/Login');
@@ -238,21 +292,72 @@ const Checkout = () => {
 				<div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
 					<div className="px-4 pt-8">
 						<p className="text-xl font-medium">Order Summary</p>
-						<p className="text-gray-400">Check your items. And select a suitable shipping method.</p>
-						<div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-							{cart.length === 0 ? <div>Cart is empty ! Continue Shopping</div> :
-								cart && cart?.map((cartItem, index) => (
-									<div key={index} className="flex flex-col rounded-lg bg-white sm:flex-row">
-										<Image width={100} height={100} className="m-2 h-24 w-28 rounded-md border object-cover object-center" src={cartItem?.product_image} alt="" />
-										<div className="flex w-full flex-col px-4 py-4">
-											<span className="font-semibold">{cartItem.Product_name}({cartItem.size})</span>
-											<span className="float-right text-gray-400">Quantity ={cartItem.quantity}</span>
-											<p className="text-lg font-bold">&#8377;{cartItem.price}</p>
-										</div>
+						<div className="mx-auto mt-8 max-w-2xl md:mt-12">
+							<div className="bg-white shadow">
+								<div className="px-4 py-6 sm:px-8 sm:py-10">
+									<div className="flow-root">
+										<ul className="-my-8">
+											{cart?.length === 0 ? <div>Cart is empty ! Continue Shopping</div> :
+												cart?.map((cartItem, index) => {
+													return <li key={index} className="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0">
+														<div className="shrink-0">
+															<Image width={100} height={100} className="h-20 w-16 max-w-full rounded-lg object-cover" src={cartItem?.product_image} alt={cartItem?.product_image} />
+														</div>
+
+														<div className="relative flex flex-1 flex-col justify-between">
+															<div className="sm:col-gap-5 sm:grid sm:grid-cols-2">
+																<div className="pr-8 sm:pr-5">
+																	<p className="text-base font-semibold text-gray-900">{cartItem.Product_name}({cartItem.size})</p>
+																	{/* <p className="mx-0 mt-1 mb-0 text-sm text-gray-400">{}</p> */}
+																</div>
+
+																<div className="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
+																	<p className="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">&#8377;{cartItem.price}</p>
+
+																	<div className="sm:order-1">
+																		<div className="mx-auto flex h-8 items-stretch text-gray-600">
+																			<button onClick={() => decreaseQuantity(cartItem)} title="Decrease quantity" className="flex items-center justify-center rounded-l-md bg-gray-200 px-4 transition hover:bg-red-600 hover:text-white">-</button>
+																			<div className="flex w-full items-center justify-center bg-gray-100 px-4 font-semibold text-xs uppercase transition">{cartItem.quantity}</div>
+																			<button onClick={() => IncreaseQuantity(cartItem)} title="Increase quantity" className="flex items-center justify-center rounded-r-md bg-gray-200 px-4 transition hover:bg-green-600 hover:text-white">+</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<div className="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
+																<button onClick={() => removeProductFromcart(cartItem)} type="button" title="Remove product from cart" className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900">
+																	{/* <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+																		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" className=""></path>
+																	</svg> */}
+																	<Trash2 className="h-6 w-6" />
+																</button>
+															</div>
+														</div>
+													</li>
+												})}
+
+										</ul>
 									</div>
-								))}
+
+									<div className="mt-6 border-t border-b py-2">
+										<div className="flex items-center justify-between">
+											<p className="text-sm text-gray-400">Subtotal</p>
+											<p className="text-lg font-semibold text-gray-900">&#8377; {totalPrice}</p>
+										</div>
+										{/* <div className="flex items-center justify-between">
+											<p className="text-sm text-gray-400">Shipping</p>
+											<p className="text-lg font-semibold text-gray-900">$8.00</p>
+										</div> */}
+									</div>
+									<div className="mt-6 flex items-center justify-between">
+										<p className="text-sm font-medium text-gray-900">Total</p>
+										<p className="text-2xl font-semibold text-gray-900">&#8377; {totalPrice}</p>
+									</div>
+									{/* <div className="text-lg font-bold">Subtotal : &#8377; {totalPrice}</div> */}
+								</div>
+
+							</div>
 						</div>
-						<div className="text-lg font-bold">Subtotal : &#8377; {totalPrice}</div>
 					</div>
 					<div className="mt-5 grid gap-6">
 						<div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">

@@ -27,8 +27,6 @@ function ProductsReducer(state, action) {
                 console.log(item.slug)
                 console.log(action.payload)
                 if (item.product_id === action.payload.productid && item.size === action.payload.size) {
-                    console.log('Found matching product:', item);
-                    console.log('Incrementing quantity by 1...');
                     return { ...item, quantity: item.quantity + 1 }
                 }
                 else {
@@ -46,8 +44,6 @@ function ProductsReducer(state, action) {
         case 'DECREMENT_QUANTITY':
             const decrementedCart = state.cart.map((item) => {
                 if (item.product_id === action.payload.productid && item.size === action.payload.size) {
-                    console.log('Found matching product:', item);
-                    console.log('Incrementing quantity by 1...');
                     return { ...item, quantity: item.quantity - 1 }
                 }
                 else {
@@ -76,6 +72,12 @@ function ProductsReducer(state, action) {
             return {
                 ...state,
                 totalPrice: action.payload
+            }
+
+        case 'REMOVE_FROM_CART':
+            return {
+                ...state,
+                cart: action.payload
             }
 
         // case 'RESET_CART':
