@@ -50,6 +50,7 @@ const Signup = () => {
 
 			if (!response.ok) {
 				toast.error("Failed to submit form. Status: " + response.status)
+				setloading(false)
 				return
 			}
 			const result = await response.json()

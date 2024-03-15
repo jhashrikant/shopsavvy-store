@@ -11,7 +11,7 @@ const Success = () => {
   const paymentid = searchParams.get('paymentid')
   let [isOpen, setIsOpen] = useState(true)
 
-  function closeModal() {
+  const closeModal = () => {
     router.push('/')
     setIsOpen(false)
   }

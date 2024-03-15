@@ -17,27 +17,4 @@
   }
 }
 
-/* body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
-
-/* .sideCart {
-  top: 0;
-  right: -300px;
-  width: 300px;
-  height: 100vh;
-  transition: 0.3s ease;
-  z-index: 999;
-}
-
-.active {
-  right: 0;
-} */
-
 

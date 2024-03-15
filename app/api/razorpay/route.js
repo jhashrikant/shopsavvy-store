@@ -29,7 +29,7 @@ export async function GET() {
     const order = await razorpay.orders.create(options);
     return NextResponse.json({ msg: "success", order });
   } catch (error) {
-    console.log(err);
+    console.log(error);
     return NextResponse.json({ msg: error })
   }
 }

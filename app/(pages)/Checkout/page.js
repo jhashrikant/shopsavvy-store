@@ -9,6 +9,7 @@ import Link from "next/link";
 import BuyProduct from "@/app/components/razorpay/BuyProduct";
 import Image from "next/image";
 import { Trash2 } from 'lucide-react';
+
 const Checkout = () => {
 
 	const apiUrl = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT : 'http://localhost:3000';
@@ -26,8 +27,8 @@ const Checkout = () => {
 		return { Product_name, price, product_id, quantity, size };
 	}) : [];
 
-
-
+	console.log('cart', cart)
+	
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [formdata, setformdata] = useState({
@@ -42,6 +43,8 @@ const Checkout = () => {
 		paymentStatus: false,
 		products: productsOrdered
 	})
+	console.log(formdata);
+	// console.log(formdata.products)
 
 	const resetForm = () => {
 		setformdata({
@@ -107,6 +110,32 @@ const Checkout = () => {
 				[event.target.name]: event.target.value
 			}
 		})
+	}
+
+	const UpdateInventory = async (cart) => {
+		try {
+			const response = await fetch(`${apiUrl}/api/updateInventory`, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					cart: cart,
+				}),
+			});
+			console.log(response);
+
+			if (!response.ok) {
+				console.error("Failed to update inventory");
+				return;
+			}
+			const data = await response.json();
+			if (data.response) {
+				console.log("Inventory updated successfully");
+			}
+		} catch (error) {
+			console.error("Error updating inventory:", error);
+		}
 	}
 
 
@@ -182,7 +211,7 @@ const Checkout = () => {
 
 		} catch (error) {
 			console.error('Error during payment:', error);
-			toast.error(errror || 'An error occurred during payment. Please try again.');
+			toast.error(error || 'An error occurred during payment. Please try again.');
 			setIsLoading(false)
 		}
 		finally {
@@ -208,18 +237,18 @@ const Checkout = () => {
 				console.error("Failed to update payment status in the database");
 				return;
 			}
-
 			const data = await response.json();
 			console.log(data)
 			if (!data.response) {
 				toast.error(data.message)
 				return;
 			}
+			//remove the product from db
+			UpdateInventory(cart)
 			// else toast.success(toast.message)
 			console.log("Payment status updated successfully in the database");
 		} catch (error) {
 			console.error("Error updating payment status:", error);
-
 			toast.error(error)
 		}
 	};
@@ -244,7 +273,7 @@ const Checkout = () => {
 		toast.success('item added in cart');
 	}
 
-	const decreaseQuantity = async (product) => {
+	const decreaseQuantity = async (product) => { 
 		dispatch({
 			type: 'DECREMENT_QUANTITY',
 			payload: {
@@ -259,7 +288,6 @@ const Checkout = () => {
 				return item
 			}
 		}).filter(item => item.quantity > 0);
-
 		await localStorage.setItem('cart', JSON.stringify(updatedCart))
 		toast.success('Item removed from cart');
 	}
@@ -274,8 +302,6 @@ const Checkout = () => {
 		await localStorage.setItem('cart', JSON.stringify(updatedCart))
 		toast.success('removed from cart')
 	}
-
-
 
 	useEffect(() => {
 		if (!isAuthenticated) {

@@ -5,7 +5,7 @@ async function connectToMongoDB() {
         throw new Error("Mongodb Url must be defined to connect to Database")
     }
     try {
-        console.log('trying to connect to DB', 'line6');
+        console.log('trying to connect to DB');
         await mongoose.connect(process.env.MONGO_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,

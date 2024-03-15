@@ -52,9 +52,10 @@ const Login = () => {
 				return;
 			}
 			const data = await response.json();
-			console.log(data)
+			// console.log(data)
 			if (!data.response) {
 				toast.error(data.message)
+				setLoading(false)
 				return;
 			} else {
 				setLoading(false)
