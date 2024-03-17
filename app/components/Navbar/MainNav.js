@@ -93,10 +93,10 @@ const MainNav = ({ navItems }) => {
 
                         {active && <div className="top-10 absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                             <div className="py-1" role="none">
-                                <div>Welcome {user}</div>
-                                <Link href="/Profile" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-0">Profile</Link>
-                                <Link href="/MyOrders" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-1">My Orders</Link>
-                                <button onClick={handleLogout} type="submit" className="text-gray-700 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabIndex="-1" id="menu-item-3">Logout</button>
+                                <div className='flex items-center justify-center'>Welcome {user}</div>
+                                <Link href="/Profile" className="text-gray-700 hover:bg-gray-200 block px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-0">Profile</Link>
+                                <Link href="/MyOrders" className="text-gray-700 hover:bg-gray-200 block px-4 py-2 text-sm" role="menuitem" tabIndex="-1" id="menu-item-1">My Orders</Link>
+                                <button onClick={handleLogout} type="submit" className="text-gray-700 hover:bg-gray-200 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabIndex="-1" id="menu-item-3">Logout</button>
                             </div>
                         </div>}
                     </div>

@@ -1,6 +1,5 @@
 
 import MyOrdersClient from "./MyOrdersClient"
-import Order from '@/Models/Order'
 
 const fetchOrdersofuser = async () => {
     // try {
