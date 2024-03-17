@@ -9,12 +9,15 @@ import Link from "next/link";
 import BuyProduct from "@/app/components/razorpay/BuyProduct";
 import Image from "next/image";
 import { Trash2 } from 'lucide-react';
+import { useCart } from "@/app/hooks/useCart";
 
 const Checkout = () => {
 
 	const apiUrl = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT : 'http://localhost:3000';
 
 	const router = useRouter()
+
+	const { IncreaseQuantity, decreaseQuantity ,removeProductfromCart} = useCart()
 
 	const { authState } = useAuthContext()
 	const { isAuthenticated } = authState
@@ -28,7 +31,7 @@ const Checkout = () => {
 	}) : [];
 
 	console.log('cart', cart)
-	
+
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [formdata, setformdata] = useState({
@@ -62,7 +65,6 @@ const Checkout = () => {
 	};
 
 	const handleBuyNow = async () => {
-		console.log(formdata?.products)
 		if (!cart || cart.length === 0) {
 			toast.error("Your cart is empty. Please add products before proceeding to checkout.");
 			return;
@@ -254,53 +256,16 @@ const Checkout = () => {
 	};
 
 
-	const IncreaseQuantity = async (product) => {
-		dispatch({
-			type: 'INCREMENT_QUANTITY',
-			payload: {
-				productid: product.product_id,
-				size: product.size
-			}
-		})
-		const updatedCart = cart?.map((item) => {
-			if (item.product_id === product.product_id && item.size === product.size) {
-				return { ...item, quantity: item.quantity + 1 }
-			} else {
-				return item
-			}
-		})
-		await localStorage.setItem('cart', JSON.stringify(updatedCart))
-		toast.success('item added in cart');
+	const handleIncrease = (product) => {
+		IncreaseQuantity(product)
 	}
 
-	const decreaseQuantity = async (product) => { 
-		dispatch({
-			type: 'DECREMENT_QUANTITY',
-			payload: {
-				productid: product.product_id,
-				size: product.size
-			}
-		})
-		const updatedCart = cart?.map((item) => {
-			if (item.product_id === product.product_id && item.size === product.size) {
-				return { ...item, quantity: item.quantity - 1 }
-			} else {
-				return item
-			}
-		}).filter(item => item.quantity > 0);
-		await localStorage.setItem('cart', JSON.stringify(updatedCart))
-		toast.success('Item removed from cart');
+	const handleDecrease = (product) => {
+		decreaseQuantity(product)
 	}
 
-	console.log(cart)
-	const removeProductFromcart = async (product) => {
-		const updatedCart = cart?.filter(item => item !== product)
-		dispatch({
-			type: 'REMOVE_FROM_CART',
-			payload: updatedCart
-		})
-		await localStorage.setItem('cart', JSON.stringify(updatedCart))
-		toast.success('removed from cart')
+	const handleremoveProduct = (cartItem)=>{
+		removeProductfromCart(cartItem)
 	}
 
 	useEffect(() => {
@@ -342,19 +307,16 @@ const Checkout = () => {
 
 																	<div className="sm:order-1">
 																		<div className="mx-auto flex h-8 items-stretch text-gray-600">
-																			<button onClick={() => decreaseQuantity(cartItem)} title="Decrease quantity" className="flex items-center justify-center rounded-l-md bg-gray-200 px-4 transition hover:bg-red-600 hover:text-white">-</button>
+																			<button onClick={() => handleDecrease(cartItem)} title="Decrease quantity" className="flex items-center justify-center rounded-l-md bg-gray-200 px-4 transition hover:bg-red-600 hover:text-white">-</button>
 																			<div className="flex w-full items-center justify-center bg-gray-100 px-4 font-semibold text-xs uppercase transition">{cartItem.quantity}</div>
-																			<button onClick={() => IncreaseQuantity(cartItem)} title="Increase quantity" className="flex items-center justify-center rounded-r-md bg-gray-200 px-4 transition hover:bg-green-600 hover:text-white">+</button>
+																			<button onClick={() => handleIncrease(cartItem)} title="Increase quantity" className="flex items-center justify-center rounded-r-md bg-gray-200 px-4 transition hover:bg-green-600 hover:text-white">+</button>
 																		</div>
 																	</div>
 																</div>
 															</div>
 
 															<div className="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
-																<button onClick={() => removeProductFromcart(cartItem)} type="button" title="Remove product from cart" className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900">
-																	{/* <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-																		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" className=""></path>
-																	</svg> */}
+																<button onClick={() => handleremoveProduct(cartItem)} type="button" title="Remove product from cart" className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900">
 																	<Trash2 className="h-6 w-6" />
 																</button>
 															</div>

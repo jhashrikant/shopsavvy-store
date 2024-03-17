@@ -101,11 +101,72 @@ const decreaseQuantity = async (product) => {
     toast.success('Item removed from cart');
 }
 
+
+const products = [
+    {
+        id: 1,
+        name: 'reebok Tee',
+        href: '#',
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+    {
+        id: 2,
+        name: 'Addidas Tee',
+        href: '#',
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+    {
+        id: 3,
+        name: 'Puma Tee',
+        href: '#',
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+    {
+        id: 4,
+        name: 'Basic Tee',
+        href: '#',
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+    // More products...
+]
+
+const Taglines = [
+    {
+        id: 1,
+        tag: 'Premium Tshirts',
+        Label: 'Our T-Shirts are 100% made of cotton'
+    },
+    {
+        id: 2,
+        tag: 'Free Shipping',
+        Label: 'We ship all over India for FREE'
+    },
+    {
+        id: 3,
+        tag: 'Exciting Offers',
+        Label: 'We provide amazing offers & discounts on our products!'
+    }
+]
+
 export {
     indianStates,
     localStorage,
     IncreaseQuantity,
-    decreaseQuantity
+    decreaseQuantity,
+    Taglines,
+    products
 }
 
 

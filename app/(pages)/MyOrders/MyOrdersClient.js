@@ -1,6 +1,6 @@
 
 'use client';
-import { useAuthContext } from "@/app/context/Authcontext"
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -16,8 +16,9 @@ const MyOrdersClient = ({ }) => {
 				console.log(email)
 			}
 			if (!email) {
+				toast.error("Email not found in localStorage")
 				console.error("Email not found in localStorage");
-				return; 
+				return;
 			}
 			const response = await fetch(`http://localhost:3000/api/fetchuserorders?email=${email}`, {
 				method: "GET", // or 'PUT'
@@ -28,6 +29,7 @@ const MyOrdersClient = ({ }) => {
 			const result = await response.json();
 			if (result.response) {
 				console.log(result.Orders)
+				setOrders(result?.Orders)
 			}
 			console.log(result);
 		} catch (error) {
@@ -35,17 +37,9 @@ const MyOrdersClient = ({ }) => {
 		}
 	}
 
-
 	useEffect(() => {
 		fetchUserOrders()
 	}, [])
-
-
-	// const { authState, authDispatch } = useAuthContext()
-
-	// const { isAuthenticated, user } = authState
-
-	// console.log(user)
 
 
 	return (
@@ -63,7 +57,7 @@ const MyOrdersClient = ({ }) => {
 						<div>
 							<h3 className="sr-only">Order placed on <time dateTime="2021-01-22">January 22, 2021</time></h3>
 
-							<div className="bg-gray-50 px-4 py-6 sm:rounded-lg sm:p-6 md:flex md:items-center md:justify-between md:space-x-6 lg:space-x-8">
+							{/* <div className="bg-gray-50 px-4 py-6 sm:rounded-lg sm:p-6 md:flex md:items-center md:justify-between md:space-x-6 lg:space-x-8">
 								<dl className="flex-auto space-y-4 divide-y divide-gray-200 text-sm text-gray-600 md:grid md:grid-cols-3 md:gap-x-6 md:space-y-0 md:divide-y-0 lg:w-1/2 lg:flex-none lg:gap-x-8">
 									<div className="flex justify-between md:block">
 										<dt className="font-medium text-gray-900">Order number</dt>
@@ -90,101 +84,48 @@ const MyOrdersClient = ({ }) => {
 										<span className="sr-only">for order WU88191111</span>
 									</a>
 								</div>
-							</div>
+							</div> */}
 
-							<div className="mt-6 flow-root px-4 sm:mt-10 sm:px-0">
-								<div className="-my-6 divide-y divide-gray-200 sm:-my-10">
-									<div className="flex py-6 sm:py-10">
-										<div className="min-w-0 flex-1 lg:flex lg:flex-col">
-											<div className="lg:flex-1">
-												<div className="sm:flex">
-													<div>
-														<h4 className="font-medium text-gray-900">Nomad Tumbler</h4>
-														<p className="mt-2 hidden text-sm text-gray-500 sm:block">This durable double-walled insulated tumbler keeps your beverages at the perfect temperature all day long. Hot, cold, or even lukewarm if you&#039;re weird like that, this bottle is ready for your next adventure.</p>
+							{Orders && Orders.map(({ products }) => {
+								{
+									return products.map(({ product_id, Product_name, quantity, size, price }) => {
+										return <div key={product_id} className="mt-6 flow-root px-4 sm:mt-10 sm:px-0">
+											<div className="-my-6 divide-y divide-gray-200 sm:-my-10">
+												<div className="flex py-6 sm:py-10">
+													<div className="min-w-0 flex-1 lg:flex lg:flex-col">
+														<div className="lg:flex-1">
+															<div className="sm:flex">
+																<div>
+																	<h4 className="font-medium text-gray-900">({Product_name}({quantity}){size})</h4>
+																	<p className="mt-2 hidden text-sm text-gray-500 sm:block">This durable double-walled insulated tumbler keeps your beverages at the perfect temperature all day long. Hot, cold, or even lukewarm if you&#039;re weird like that, this bottle is ready for your next adventure.</p>
+																</div>
+																<p className="mt-1 font-medium text-gray-900 sm:ml-6 sm:mt-0">{price}</p>
+															</div>
+															<div className="mt-2 flex text-sm font-medium sm:mt-4">
+																<a href="#" className="text-indigo-600 hover:text-indigo-500">View Product</a>
+																<div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
+																	<a href="#" className="text-indigo-600 hover:text-indigo-500">Buy Again</a>
+																</div>
+															</div>
+														</div>
+														<div className="mt-6 font-medium">
+															<p>Out for delivery</p>
+														</div>
 													</div>
-													<p className="mt-1 font-medium text-gray-900 sm:ml-6 sm:mt-0">$35.00</p>
-												</div>
-												<div className="mt-2 flex text-sm font-medium sm:mt-4">
-													<a href="#" className="text-indigo-600 hover:text-indigo-500">View Product</a>
-													<div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
-														<a href="#" className="text-indigo-600 hover:text-indigo-500">Buy Again</a>
-													</div>
-												</div>
-											</div>
-											<div className="mt-6 font-medium">
-												<p>Out for delivery</p>
-											</div>
-										</div>
-										<div className="ml-4 flex-shrink-0 sm:order-first sm:m-0 sm:mr-6">
-											<img src="https://tailwindui.com/img/ecommerce-images/order-history-page-06-product-01.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." className="col-start-2 col-end-3 h-20 w-20 rounded-lg object-cover object-center sm:col-start-1 sm:row-span-2 sm:row-start-1 sm:h-40 sm:w-40 lg:h-52 lg:w-52" />
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div className="mt-6 flow-root px-4 sm:mt-10 sm:px-0">
-								<div className="-my-6 divide-y divide-gray-200 sm:-my-10">
-									<div className="flex py-6 sm:py-10">
-										<div className="min-w-0 flex-1 lg:flex lg:flex-col">
-											<div className="lg:flex-1">
-												<div className="sm:flex">
-													<div>
-														<h4 className="font-medium text-gray-900">Leather Long Wallet</h4>
-														<p className="mt-2 hidden text-sm text-gray-500 sm:block">Were not sure who carries cash anymore, but this leather long wallet will keep those bills nice and fold-free. The cashier hasnt seen print money in years, but youll make a damn fine impression with your pristine cash monies.</p>
-													</div>
-													<p className="mt-1 font-medium text-gray-900 sm:ml-6 sm:mt-0">$135.00</p>
-												</div>
-												<div className="mt-2 flex text-sm font-medium sm:mt-4">
-													<a href="#" className="text-indigo-600 hover:text-indigo-500">View Product</a>
-													<div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
-														<a href="#" className="text-indigo-600 hover:text-indigo-500">Buy Again</a>
-													</div>
+													{/* <div className="ml-4 flex-shrink-0 sm:order-first sm:m-0 sm:mr-6">
+														<Image src="https://tailwindui.com/img/ecommerce-images/order-history-page-06-product-01.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." className="col-start-2 col-end-3 h-20 w-20 rounded-lg object-cover object-center sm:col-start-1 sm:row-span-2 sm:row-start-1 sm:h-40 sm:w-40 lg:h-52 lg:w-52" />
+													</div> */}
 												</div>
 											</div>
-											<div className="mt-6 font-medium">
-												<p>Out for delivery</p>
-											</div>
 										</div>
-										<div className="ml-4 flex-shrink-0 sm:order-first sm:m-0 sm:mr-6">
-											<img src="https://tailwindui.com/img/ecommerce-images/order-history-page-06-product-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." className="col-start-2 col-end-3 h-20 w-20 rounded-lg object-cover object-center sm:col-start-1 sm:row-span-2 sm:row-start-1 sm:h-40 sm:w-40 lg:h-52 lg:w-52" />
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div className="mt-6 flow-root px-4 sm:mt-10 sm:px-0">
-								<div className="-my-6 divide-y divide-gray-200 sm:-my-10">
-									<div className="flex py-6 sm:py-10">
-										<div className="min-w-0 flex-1 lg:flex lg:flex-col">
-											<div className="lg:flex-1">
-												<div className="sm:flex">
-													<div>
-														<h4 className="font-medium text-gray-900">Minimalist Wristwatch</h4>
-														<p className="mt-2 hidden text-sm text-gray-500 sm:block">This contemporary wristwatch has a clean, minimalist look and high quality components. Everyone knows youll never use it to check the time, but wow, does that wrist look good with this timepiece on it.</p>
-													</div>
-													<p className="mt-1 font-medium text-gray-900 sm:ml-6 sm:mt-0">$45.00</p>
-												</div>
-												<div className="mt-2 flex text-sm font-medium sm:mt-4">
-													<a href="#" className="text-indigo-600 hover:text-indigo-500">View Product</a>
-													<div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
-														<a href="#" className="text-indigo-600 hover:text-indigo-500">Buy Again</a>
-													</div>
-												</div>
-											</div>
-											<div className="mt-6 font-medium">
-												<p>Out for delivery</p>
-											</div>
-										</div>
-										<div className="ml-4 flex-shrink-0 sm:order-first sm:m-0 sm:mr-6">
-											<img src="https://tailwindui.com/img/ecommerce-images/order-history-page-06-product-03.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." className="col-start-2 col-end-3 h-20 w-20 rounded-lg object-cover object-center sm:col-start-1 sm:row-span-2 sm:row-start-1 sm:h-40 sm:w-40 lg:h-52 lg:w-52" />
-										</div>
-									</div>
-								</div>
-							</div>
+									})
+								}
+							})}
 						</div>
 					</div>
 				</section>
 			</div>
+			<Toaster />
 		</main>
 	)
 }

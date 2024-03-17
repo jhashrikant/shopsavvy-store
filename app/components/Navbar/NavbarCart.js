@@ -2,15 +2,16 @@
 import React, { useRef, useState } from 'react';
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 import { BsFillBagCheckFill } from 'react-icons/bs';
-import Link from 'next/link';
 import styles from '/styles/Navbar.module.css'
 import toast, { Toaster } from 'react-hot-toast';
 import { useProductContext } from '@/app/context/Productcontext';
-import { useAuth } from '@/app/context/Authcontext';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useCart } from '@/app/hooks/useCart';
 
 const NavbarCart = () => {
+
+	const { IncreaseQuantity, decreaseQuantity ,clearCart } = useCart()
 
 	const router = useRouter()
 
@@ -32,61 +33,13 @@ const NavbarCart = () => {
 		router.push('/Checkout')
 	}
 
-
-	const IncreaseQuantity = async (product) => {
-		dispatch({
-			type: 'INCREMENT_QUANTITY',
-			payload: {
-				productid: product.product_id,
-				size: product.size
-			}
-		})
-		const updatedCart = cart?.map((item) => {
-			if (item.product_id === product.product_id && item.size === product.size) {
-				return { ...item, quantity: item.quantity + 1 }
-			} else {
-				return item
-			}
-		})
-		await localStorage.setItem('cart', JSON.stringify(updatedCart))
-		toast.success('item added in cart');
+	const handleIncrease = (product) => {
+		IncreaseQuantity(product)
 	}
 
-	const clearCart = async () => {
-		dispatch({
-			type: 'CLEAR_CART',
-			payload: []
-		})
-		await localStorage.removeItem('cart');
-		if (cart.length === 0) {
-			toast.success('No items in cart');
-		} else {
-			toast.success('Cart Cleared');
-		}
+	const handleDecrease = (product) => {
+		decreaseQuantity(product)
 	}
-
-
-	const decreaseQuantity = async (product) => {
-		dispatch({
-			type: 'DECREMENT_QUANTITY',
-			payload: {
-				productid: product.product_id,
-				size: product.size
-			}
-		})
-		const updatedCart = cart?.map((item) => {
-			if (item.product_id === product.product_id && item.size === product.size) {
-				return { ...item, quantity: item.quantity - 1 }
-			} else {
-				return item
-			}
-		}).filter(item => item.quantity > 0);
-
-		await localStorage.setItem('cart', JSON.stringify(updatedCart))
-		toast.success('Item removed from cart');
-	}
-
-
 
 	return (
 		<>
@@ -122,9 +75,9 @@ const NavbarCart = () => {
 									<div className="w-5/12 flex items-center justify-start flex-col font-semibold">
 										<div className=''>&#8377; {cartItem.price}</div>
 										<div className='flex items-center justify-center mt-2'>
-											<AiFillPlusCircle onClick={() => IncreaseQuantity(cartItem)} className="cursor-pointer text-lg text-green-600" />
+											<AiFillPlusCircle onClick={() => handleIncrease(cartItem)} className="cursor-pointer text-lg text-green-600" />
 											<span className="mx-2">{cartItem.quantity}</span>
-											<AiFillMinusCircle onClick={() => decreaseQuantity(cartItem)} className="cursor-pointer text-lg text-red-600" />
+											<AiFillMinusCircle onClick={() => handleDecrease(cartItem)} className="cursor-pointer text-lg text-red-600" />
 										</div>
 									</div>
 								</div>
@@ -139,7 +92,7 @@ const NavbarCart = () => {
 						Checkout
 					</button>
 
-					<button onClick={clearCart} className="flex mr-2 mt-6 text-white bg-indigo-500 border-0 py-2 px-3 focus:outline-none hover:bg-indigo-600 rounded text-sm ">
+					<button onClick={()=>clearCart()} className="flex mr-2 mt-6 text-white bg-indigo-500 border-0 py-2 px-3 focus:outline-none hover:bg-indigo-600 rounded text-sm ">
 						Clear cart
 					</button>
 				</div>

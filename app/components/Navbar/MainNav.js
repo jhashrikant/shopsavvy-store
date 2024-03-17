@@ -38,12 +38,10 @@ const MainNav = ({ navItems }) => {
                 setIsNavVisible(false);
             }
             if (profileDropdownref.current && event && !profileDropdownref.current.contains(event.target)) {
-                // console.log(profileDropdownref.current.contains(event.target))
                 setactive(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
-        // Remove event listener when the component unmounts
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
