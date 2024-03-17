@@ -6,6 +6,8 @@ import toast, { Toaster } from "react-hot-toast";
 
 const MyOrdersClient = ({ }) => {
 
+	const apiUrl = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT : 'http://localhost:3000';
+
 	const [Orders, setOrders] = useState([])
 
 	const fetchUserOrders = async () => {
@@ -20,7 +22,7 @@ const MyOrdersClient = ({ }) => {
 				console.error("Email not found in localStorage");
 				return;
 			}
-			const response = await fetch(`http://localhost:3000/api/fetchuserorders?email=${email}`, {
+			const response = await fetch(`${apiUrl}/api/fetchuserorders?email=${email}`, {
 				method: "GET", // or 'PUT'
 				headers: {
 					"Content-Type": "application/json",
