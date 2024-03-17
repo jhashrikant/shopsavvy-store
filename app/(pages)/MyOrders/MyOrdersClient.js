@@ -88,41 +88,42 @@ const MyOrdersClient = ({ }) => {
 								</div>
 							</div> */}
 
-							{Orders && Orders.map(({ products }) => {
-								{
-									return products.map(({ product_id, Product_name, quantity, size, price }) => {
-										return <div key={product_id} className="mt-6 flow-root px-4 sm:mt-10 sm:px-0">
-											<div className="-my-6 divide-y divide-gray-200 sm:-my-10">
-												<div className="flex py-6 sm:py-10">
-													<div className="min-w-0 flex-1 lg:flex lg:flex-col">
-														<div className="lg:flex-1">
-															<div className="sm:flex">
-																<div>
-																	<h4 className="font-medium text-gray-900">({Product_name}({quantity}){size})</h4>
-																	<p className="mt-2 hidden text-sm text-gray-500 sm:block">This durable double-walled insulated tumbler keeps your beverages at the perfect temperature all day long. Hot, cold, or even lukewarm if you&#039;re weird like that, this bottle is ready for your next adventure.</p>
+							{Orders.length === 0 ? <div>NO orders placed yet ! Continue Shopping</div>
+								: Orders && Orders.map(({ products }) => {
+									{
+										return products.map(({ product_id, Product_name, quantity, size, price }) => {
+											return <div key={product_id} className="mt-6 flow-root px-4 sm:mt-10 sm:px-0">
+												<div className="-my-6 divide-y divide-gray-200 sm:-my-10">
+													<div className="flex py-6 sm:py-10">
+														<div className="min-w-0 flex-1 lg:flex lg:flex-col">
+															<div className="lg:flex-1">
+																<div className="sm:flex">
+																	<div>
+																		<h4 className="font-medium text-gray-900">({Product_name}({quantity}){size})</h4>
+																		<p className="mt-2 hidden text-sm text-gray-500 sm:block">This durable double-walled insulated tumbler keeps your beverages at the perfect temperature all day long. Hot, cold, or even lukewarm if you&#039;re weird like that, this bottle is ready for your next adventure.</p>
+																	</div>
+																	<p className="mt-1 font-medium text-gray-900 sm:ml-6 sm:mt-0">{price}</p>
 																</div>
-																<p className="mt-1 font-medium text-gray-900 sm:ml-6 sm:mt-0">{price}</p>
+																<div className="mt-2 flex text-sm font-medium sm:mt-4">
+																	<a href="#" className="text-indigo-600 hover:text-indigo-500">View Product</a>
+																	<div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
+																		<a href="#" className="text-indigo-600 hover:text-indigo-500">Buy Again</a>
+																	</div>
+																</div>
 															</div>
-															<div className="mt-2 flex text-sm font-medium sm:mt-4">
-																<a href="#" className="text-indigo-600 hover:text-indigo-500">View Product</a>
-																<div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
-																	<a href="#" className="text-indigo-600 hover:text-indigo-500">Buy Again</a>
-																</div>
+															<div className="mt-6 font-medium">
+																<p>Out for delivery</p>
 															</div>
 														</div>
-														<div className="mt-6 font-medium">
-															<p>Out for delivery</p>
-														</div>
-													</div>
-													{/* <div className="ml-4 flex-shrink-0 sm:order-first sm:m-0 sm:mr-6">
+														{/* <div className="ml-4 flex-shrink-0 sm:order-first sm:m-0 sm:mr-6">
 														<Image src="https://tailwindui.com/img/ecommerce-images/order-history-page-06-product-01.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." className="col-start-2 col-end-3 h-20 w-20 rounded-lg object-cover object-center sm:col-start-1 sm:row-span-2 sm:row-start-1 sm:h-40 sm:w-40 lg:h-52 lg:w-52" />
 													</div> */}
+													</div>
 												</div>
 											</div>
-										</div>
-									})
-								}
-							})}
+										})
+									}
+								})}
 						</div>
 					</div>
 				</section>
