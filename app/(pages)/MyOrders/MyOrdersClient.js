@@ -94,12 +94,12 @@ const MyOrdersClient = ({ }) => {
 								</div>
 							</div> */}
 
-							{isLoading && <Loading type="spin" color="#000"/>}
+							{isLoading && <Loading type="spin" color="rgb(79, 70, 229)"/>}
 							{(!isLoading && Orders.length === 0) && <div>NO orders placed yet ! Continue Shopping</div>}
 							{Orders && Orders.map(({ products }) => {
 								{
 									return products.map(({ product_id, Product_name, quantity, size, price }) => {
-										return <div key={product_id} className="mt-6 flow-root px-4 sm:mt-10 sm:px-0">
+										return <div key={product_id} className="mt-6 border flow-root px-6 py-4 sm:mt-10 sm:px-0">
 											<div className="-my-6 divide-y divide-gray-200 sm:-my-10">
 												<div className="flex py-6 sm:py-10">
 													<div className="min-w-0 flex-1 lg:flex lg:flex-col">

@@ -142,7 +142,6 @@ const Checkout = () => {
 
 
 	const makePayment = async (orderId) => {
-		console.log('helo', orderId)
 		setIsLoading(true)
 
 		try {
