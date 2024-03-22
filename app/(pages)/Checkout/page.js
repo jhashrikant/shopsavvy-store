@@ -94,6 +94,7 @@ const Checkout = () => {
 			const data = await response.json();
 			if (!data.response) {
 				toast.error(data.message)
+				setIsLoading(false)
 				return;
 			} else {
 				makePayment(data?.order?.orderId)
