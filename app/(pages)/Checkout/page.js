@@ -89,6 +89,7 @@ const Checkout = () => {
 			})
 			if (!response.ok) {
 				toast.error("some error occured , we didnt get response from server")
+				setIsLoading(false)
 				return;
 			}
 			const data = await response.json();
