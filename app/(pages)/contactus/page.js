@@ -3,7 +3,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 const ContactUs = () => {
-  
+
   const apiUrl = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_APP_BASE_URL_CLIENT : 'http://localhost:3000';
 
   const [formdata, setformdata] = useState({
@@ -34,7 +34,7 @@ const ContactUs = () => {
   const handleDetailsSubmit = async () => {
     const requiredfields = ["name", "email", "message"];
     const missingfields = requiredfields.filter((field) => !formdata[field])
-    if (missingfields.length > 0){
+    if (missingfields.length > 0) {
       toast.error(`Please enter all the valid fields :${missingfields.join(", ")}`);
       return;
     }
@@ -56,6 +56,11 @@ const ContactUs = () => {
       if (result.response) {
         toast.success(result.message)
         setloading(false)
+        setformdata({
+          name: '',
+          email: '',
+          message: ''
+        });
       }
       console.log(result);
     } catch (error) {
