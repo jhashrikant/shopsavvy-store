@@ -9,10 +9,8 @@ const page = () => {
         <p>
           We want you to be completely satisfied with your purchase. If you have any questions or concerns about your
           order, please contact our customer service team at
-          <Link className="underline" href="#">
-            support@example.com
-          </Link>
-          .
+          9561902867
+          
         </p>
         <h2 className="font-bold text-2xl tracking-tight md:text-4xl md:leading-tight mt-10">Return Process</h2>
         <p>
