@@ -3,11 +3,13 @@ import Image from "next/image";
 import billboard from '../images/billboard.png';
 import { Taglines } from '@/common/utils';
 import { products } from '@/common/utils';
+import Link from 'next/link';
+import { Fragment } from 'react';
 
 export default function Home() {
 
 	return (
-		<>
+		<Fragment>
 			<div >
 				<Image className="w-full h-full object-cover" src={billboard} alt='billboard' />
 			</div>
@@ -31,14 +33,14 @@ export default function Home() {
 								<div className="mt-4 flex justify-between">
 									<div>
 										<h3 className="text-sm text-gray-700">
-											<a href={href}>
+											<Link href={href}>
 												<span aria-hidden="true" className="absolute inset-0" />
 												{name}
-											</a>
+											</Link>
 										</h3>
 										<p className="mt-1 text-sm text-gray-500">{color}</p>
 									</div>
-									<p className="text-sm font-medium text-gray-900">{price}</p>
+									<p className="text-sm font-bold text-gray-900">&#8377;{price}</p>
 								</div>
 							</div>
 						))}
@@ -68,6 +70,6 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
-		</>
+		</Fragment>
 	)
 }
