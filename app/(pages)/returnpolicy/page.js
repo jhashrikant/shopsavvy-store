@@ -1,7 +1,5 @@
-import Link from 'next/link'
-import React from 'react'
 
-const page = () => {
+const Returnpolicy = () => {
   return (
     <div className="flex flex-col items-center py-12 space-y-6 lg:py-24">
       <div className="prose prose-gray max-w-none w-full px-4 md:px-6 lg:px-12 dark:prose-invert">
@@ -64,4 +62,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Returnpolicy
