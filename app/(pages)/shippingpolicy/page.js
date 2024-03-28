@@ -58,6 +58,9 @@ const Shippingpolicy = () => {
               and Exchanges policy page for detailed instructions.
             </p>
           </div>
+          <p>Call/Whatsapp: +91 9561902867<br />
+            Email: shrikantjha48@gmail.com<br />
+            Support Hours: 10 AM - 6 PM</p>
         </div>
       </div>
     </div>

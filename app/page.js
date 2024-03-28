@@ -14,7 +14,7 @@ export default function Home() {
 				<Image className="w-full h-full object-cover" src={billboard} alt='billboard' />
 			</div>
 
-			<div className="bg-white">
+			{/* <div className="bg-white">
 				<div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 					<h2 className="text-2xl font-bold tracking-tight text-gray-900">Featured Products</h2>
 
@@ -46,7 +46,7 @@ export default function Home() {
 						))}
 					</div>
 				</div>
-			</div>
+			</div> */}
 
 			<section className="text-gray-600 body-font">
 				<div className="container px-5 py-20 mx-auto">

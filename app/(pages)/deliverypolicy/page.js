@@ -24,7 +24,6 @@ const Deliverypolicy = () => {
             <ul className="list-disc list-inside space-y-1">
               <li>Standard Shipping: 5-7 business days</li>
               <li>Express Shipping: 1-2 business days</li>
-              <li>In-Store Pickup: Ready in 3 hours</li>
             </ul>
           </div>
           <div className="space-y-2">
@@ -66,6 +65,9 @@ const Deliverypolicy = () => {
               9561902867
               . We are here to help!
             </p>
+            <p>Call/Whatsapp: +91 9561902867<br />
+              Email: shrikantjha48@gmail.com<br />
+              Support Hours: 10 AM - 6 PM</p>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ const Returnpolicy = () => {
           We want you to be completely satisfied with your purchase. If you have any questions or concerns about your
           order, please contact our customer service team at
           9561902867
-          
+
         </p>
         <h2 className="font-bold text-2xl tracking-tight md:text-4xl md:leading-tight mt-10">Return Process</h2>
         <p>
@@ -57,6 +57,9 @@ const Returnpolicy = () => {
           9561902867
           . We are here to help!
         </p>
+        <p>Call/Whatsapp: +91 9561902867<br />
+          Email: shrikantjha48@gmail.com<br />
+          Support Hours: 10 AM - 6 PM</p>
       </div>
     </div>
   )
