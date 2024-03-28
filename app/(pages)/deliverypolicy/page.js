@@ -61,8 +61,10 @@ const Deliverypolicy = () => {
           <div className="space-y-2">
             <h2 className="text-2xl font-bold">Delivery Support</h2>
             <p>
-              If you have any questions about your delivery, our customer support
-              team is here to help. You can contact us via email or live chat.
+              If you have any questions about your delivery, please contact our
+              customer service team at
+              9561902867
+              . We are here to help!
             </p>
           </div>
         </div>
